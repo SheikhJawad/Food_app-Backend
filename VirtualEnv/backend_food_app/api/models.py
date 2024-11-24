@@ -39,4 +39,11 @@ class UserToken(models.Model):
     def __str__(self):
         return f"Token for {self.user.username} - Active: {self.status}"
 
+class MenuItem(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    image = models.ImageField(upload_to='menu_images/')
+    link = models.URLField(max_length=200, blank=True)
 
+    def __str__(self):
+        return self.name

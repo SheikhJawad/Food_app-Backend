@@ -1,17 +1,16 @@
 
-<<<<<<< HEAD
-=======
 from rest_framework import status
->>>>>>> 4c6d6ee84d0c9de0c66fa0865c26d5361dc7bd1d
 from rest_framework.response import Response
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from .models import *
 from rest_framework.views import APIView
-from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+
+
+
 
 
 
@@ -83,3 +82,13 @@ class LoginView(APIView):
             return Response({
                 'detail': 'Invalid credentials'
             }, status=status.HTTP_401_UNAUTHORIZED)
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .models import MenuItem
+from .serializers import MenuItemSerializer
+
+class MenuListView(APIView):
+    def get(self, request):
+        menu_items = MenuItem.objects.all()
+        serializer = MenuItemSerializer(menu_items, many=True)
+        return Response(serializer.data)
