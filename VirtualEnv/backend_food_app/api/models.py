@@ -41,7 +41,7 @@ class UserToken(models.Model):
 
 class ParentCategory(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(max_length=200)
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
 
     def __str__(self):
@@ -51,7 +51,7 @@ class ParentCategory(models.Model):
 class ChildItem(models.Model):
     parent = models.ForeignKey(ParentCategory, related_name='items', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='items/', blank=True, null=True)
 
