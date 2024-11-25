@@ -7,7 +7,20 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = ['name', 'email', 'reservation_date', 'people_count', 'special_request']
 
-class MenuItemSerializer(serializers.ModelSerializer):
+
+
+
+
+class ChildItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MenuItem
-        fields = ['id', 'name', 'description', 'image', 'link']
+        model = ChildItem
+        fields = ['id', 'title', 'description', 'price', 'image']
+
+
+class ParentCategorySerializer(serializers.ModelSerializer):
+    items = ChildItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ParentCategory
+        fields = ['id', 'title', 'description', 'image', 'items']
+

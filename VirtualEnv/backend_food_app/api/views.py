@@ -8,7 +8,7 @@ from .models import *
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from rest_framework import generics
 
 
 
@@ -82,13 +82,18 @@ class LoginView(APIView):
             return Response({
                 'detail': 'Invalid credentials'
             }, status=status.HTTP_401_UNAUTHORIZED)
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from .models import MenuItem
-from .serializers import MenuItemSerializer
 
-class MenuListView(APIView):
+
+class ParentCategoryListAPIView(APIView):
     def get(self, request):
-        menu_items = MenuItem.objects.all()
-        serializer = MenuItemSerializer(menu_items, many=True)
+        categories = ParentCategory.objects.all()
+        serializer = ParentCategorySerializer(categories, many=True)
         return Response(serializer.data)
+
+
+class ChildItemListAPIView(generics.ListAPIView):
+    serializer_class = ChildItemSerializer
+
+    def get_queryset(self):
+        category_id = self.kwargs['categoryId']  # Fetch category ID from the URL parameter
+        return ChildItem.objects.filter(parent_id=category_id)  # Filter by parent category
